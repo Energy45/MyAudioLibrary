@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
 @RequestMapping(value = "/artists")
@@ -49,8 +52,30 @@ public class ArtistController {
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     public Artist createArtist(@RequestBody Artist artistCreated) {
         artistRepository.save(artistCreated);
         return artistCreated;
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/{idArtist}")
+    public Artist modifyArtist(@RequestBody Artist artistModified, @PathVariable Long idArtist) {
+        if(artistModified.getId().equals(idArtist)) {
+            artistRepository.save(artistModified);
+            return artistModified;
+        } else {
+            throw new IllegalArgumentException("Les id ne correspondent pas !");
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{idArtist}")
+    @ResponseStatus(NO_CONTENT)
+    public void deleteArtist(@PathVariable Long idArtist) {
+        Artist artist = artistRepository.findById(idArtist).orElse(null);
+        if(artist != null) {
+            artistRepository.delete(artist);
+        } else {
+            throw new EntityNotFoundException(ERROR_ARTIST_NOT_FOUND);
+        }
     }
 }

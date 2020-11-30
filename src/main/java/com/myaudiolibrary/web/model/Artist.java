@@ -17,14 +17,14 @@ public class Artist {
     private String name;
 
     @JsonIgnoreProperties("artist")
-    @OneToMany(mappedBy = "artist")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "artist", orphanRemoval = true)
     private Set<Album> albums = new HashSet<>();
 
-    public void setArtistId(Long albumId) {
+    public void setId(Long albumId) {
         this.id = albumId;
     }
 
-    public Long getArtistId() {
+    public Long getId() {
         return id;
     }
 

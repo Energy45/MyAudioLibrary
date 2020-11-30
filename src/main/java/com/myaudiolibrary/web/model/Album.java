@@ -8,7 +8,7 @@ public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "AlbumId")
-    private Integer id;
+    private Long id;
 
     @Column(name = "Title")
     private String title;
@@ -16,14 +16,6 @@ public class Album {
     @ManyToOne
     @JoinColumn(name = "artistId", nullable = false)
     private Artist artist;
-
-    public Integer getAlbumId() {
-        return id;
-    }
-
-    public void setAlbumId(Integer albumId) {
-        this.id = albumId;
-    }
 
     public String getTitle() {
         return title;
@@ -33,11 +25,11 @@ public class Album {
         this.title = title;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
