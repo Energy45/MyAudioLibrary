@@ -10,7 +10,6 @@ import java.util.Set;
 public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ArtistId")
     private Long id;
 
     @Column(name = "Name")

@@ -26,7 +26,7 @@ public class AlbumController {
     public Album createAlbum(@RequestBody Album albumAdded) {
         Artist artist = artistRepository.findById(albumAdded.getArtist().getId()).orElse(null);
         if(artist != null) {
-            albumAdded.setArtist(artist);
+            //albumAdded.setArtist(artist); Pas besoin car tout est déjà gérer dans le JSON
             albumRepository.save(albumAdded);
             return albumAdded;
         } else {

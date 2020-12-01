@@ -7,7 +7,6 @@ public class Album {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "AlbumId")
     private Long id;
 
     @Column(name = "Title")
