@@ -67,6 +67,4 @@ public class ThymeleafAudioController {
 
         return "listeArtists";
     }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/artists")
 }
