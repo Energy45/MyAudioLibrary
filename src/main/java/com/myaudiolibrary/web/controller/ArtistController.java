@@ -41,7 +41,7 @@ public class ArtistController {
                                          @RequestParam Integer size,
                                          @RequestParam String sortDirection,
                                          @RequestParam String sortProperty) {
-        return artistRepository.findByName(name, PageRequest.of(page, size, Sort.Direction.valueOf(sortDirection), sortProperty));
+        return artistRepository.findByNameContains(name, PageRequest.of(page, size, Sort.Direction.valueOf(sortDirection), sortProperty));
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
