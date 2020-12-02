@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
 import static org.springframework.http.HttpStatus.NO_CONTENT;
@@ -54,8 +55,14 @@ public class ArtistController {
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public Artist createArtist(@RequestBody Artist artistCreated) {
-        artistRepository.save(artistCreated);
-        return artistCreated;
+        if(artistRepository.findByName(artistCreated.getName()) == null) {
+            //
+            artistRepository.save(artistCreated);
+            return artistCreated;
+        } else {
+            //409
+            throw new EntityExistsException("L'artiste existe déjà !");
+        }
     }
 
     @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/{idArtist}")
