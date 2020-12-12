@@ -31,23 +31,23 @@
           </li>
           <li class="list-group-item">
             <h4 class="list-group-item-heading">4 - Création d'un artiste</h4>
-            <p class="list-group-item-text">En cliquant <a href="#">ici</a> ou via le bouton <em>Nouvel artiste</em>, présent dans la liste des artistes, on accède au formulaire de création d'un artiste. L'appel qui est effectué est <code>POST /artists</code> avec les données de l'artiste en JSON dans le champ <code>data</code> de la requête. Créer un artiste qui existe déjà (même nom) lance une erreur 409.</p>
+            <p class="list-group-item-text">En cliquant <a th:href="@{/thymeleaf/artists/new}">ici</a> ou via le bouton <em>Nouvel artiste</em>, présent dans la liste des artistes, on accède au formulaire de création d'un artiste. L'appel qui est effectué est <code>POST /artists</code> avec les données de l'artiste en JSON dans le champ <code>data</code> de la requête. Créer un artiste qui existe déjà (même nom) lance une erreur 409.</p>
           </li>
           <li class="list-group-item">
             <h4 class="list-group-item-heading">5 - Modification d'un artiste</h4>
-            <p class="list-group-item-text">En cliquant <a href="#">ici</a> ou en consultant les détails de l'artiste <em>Alanis Morissette</em> (id 4), il est possible de modifier les informations de l'artiste d'identifiant 4 qui sont persistées en base de donnée lorsqu'on clique sur le bouton <em>Enregistrer</em>. L'appel qui est effectué est <code>PUT /artists/4</code> avec les données de l'artiste en JSON dans le champ <code>data</code> de la requête.</p>
+            <p class="list-group-item-text">En cliquant <a th:href="@{/thymeleaf/artists/4}">ici</a> ou en consultant les détails de l'artiste <em>Alanis Morissette</em> (id 4), il est possible de modifier les informations de l'artiste d'identifiant 4 qui sont persistées en base de donnée lorsqu'on clique sur le bouton <em>Enregistrer</em>. L'appel qui est effectué est <code>PUT /artists/4</code> avec les données de l'artiste en JSON dans le champ <code>data</code> de la requête.</p>
           </li>
           <li class="list-group-item">
             <h4 class="list-group-item-heading">6 - Suppression d'un artiste</h4>
-            <p class="list-group-item-text">En cliquant <a href="#">ici</a> ou en consultant les détails de l'artiste <em>Alice In Chains</em> (id 5), il est possible de supprimer ce dernier lorsqu'on clique sur le bouton <em>Supprimer</em>. L'appel qui est effectué est <code>DELETE /artists/5</code>.</p>
+            <p class="list-group-item-text">En cliquant <a th:href="@{/thymeleaf/artists/5/delete}">ici</a> ou en consultant les détails de l'artiste <em>Alice In Chains</em> (id 5), il est possible de supprimer ce dernier lorsqu'on clique sur le bouton <em>Supprimer</em>. L'appel qui est effectué est <code>DELETE /artists/5</code>.</p>
           </li>
           <li class="list-group-item">
             <h4 class="list-group-item-heading">7 - Ajout d'un album</h4>
-            <p class="list-group-item-text">En cliquant <a href="#">ici</a> ou en consultant les détails de l'artiste <em>Alice In Chains</em> (id 5), il est possible d'ajouter un album en renseignant le champ et en cliquant sur le <span class="glyphicon glyphicon-plus"></span>. L'appel qui est effectué est <code>POST /albums</code>.</p>
+            <p class="list-group-item-text">En cliquant <a th:href="@{/thymeleaf/artists/6}">ici</a> ou en consultant les détails de l'artiste <em>Alice In Chains</em> (id 6), il est possible d'ajouter un album en renseignant le champ et en cliquant sur le <span class="glyphicon glyphicon-plus"></span>. L'appel qui est effectué est <code>POST /albums</code>.</p>
           </li>
           <li class="list-group-item">
             <h4 class="list-group-item-heading">8 - Suppression d'un album</h4>
-            <p class="list-group-item-text">En cliquant <a href="#">ici</a> ou en consultant les détails de l'artiste <em>Alice In Chains</em> (id 5), il est possible de supprimer un album en cliquant sur le <span class="glyphicon glyphicon-minus"></span>. L'appel qui est effectué est <code>DELETE /albums/X</code> avec <em>X</em> correspondant à l'identifiant technique de l'album.</p>
+            <p class="list-group-item-text">En cliquant <a th:href="@{/thymeleaf/artists/6}">ici</a> ou en consultant les détails de l'artiste <em>Alice In Chains</em> (id 6), il est possible de supprimer un album en cliquant sur le <span class="glyphicon glyphicon-minus"></span>. L'appel qui est effectué est <code>DELETE /albums/X</code> avec <em>X</em> correspondant à l'identifiant technique de l'album.</p>
           </li>
         </ul>
       </div>
