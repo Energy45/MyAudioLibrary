@@ -37,24 +37,27 @@
 							</div>
 						</div>
 						<div class="col-lg-2 text-center">
-							<div class="list-group text-center">
+							<div class="list-group text-left">
 								<th:block th:each="album : ${artist.getAlbums()}">
-									<button class="btn-danger list-group-item list-group-item-action"><span class="glyphicon glyphicon-remove"></span></button>
+									<a class="btn-danger list-group-item list-group-item-action" th:href="@{/thymeleaf/artists/{idArtist}/album/delete/{idAlbum}(idArtist=${artist.id}, idAlbum=${album.id})}"><span class="glyphicon glyphicon-remove"></span></a>
 								</th:block>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-lg-10">
-							<input type="text" placeholder="Ajouter un album..." class="form-control ember-text-field ember-view">
+							<input form="albumSave" name="title" type="text" placeholder="Ajouter un album..." class="form-control ember-text-field ember-view">
 						</div>
-						<div class="col-lg-2 text-center">
-							<input form="artistSave" class="btn-success list-group-item list-group-item-action" type="submit"><span class="glyphicon glyphicon-plus"></span></input>
+						<div class="col-lg-2 text-center inner-addon right-addon">
+							<button form="albumSave" class="btn-success list-group-item list-group-item-action" type="submit" value="">
+								<span class="glyphicon glyphicon-plus"></span>
+							</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</form>
+		<form id="albumSave" th:action="@{/thymeleaf/artists/{idArtist}/album(idArtist=${artist.id})}" method="post"></form>
 		<div class="row">
 			<input form="artistSave" class="btn btn-primary" type="submit" value="Enregistrer">
 			<th:block th:if="${artist.id}">

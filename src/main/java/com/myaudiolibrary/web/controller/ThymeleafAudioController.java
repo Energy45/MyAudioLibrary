@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.Optional;
+
 @Controller
 @RequestMapping(value = "/thymeleaf")
 public class ThymeleafAudioController {
@@ -31,12 +33,10 @@ public class ThymeleafAudioController {
         return "accueil";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/artists/{artistId}")
-    public String getArtistById(final ModelMap model, @PathVariable Long artistId) {
-        Artist artist = artistRepository.findById(artistId).orElse(null);
-        if(artist != null) {
-            model.put("artist", artist);
-        }
+    @RequestMapping(method = RequestMethod.GET, value = "/artists/{idArtist}")
+    public String getArtistById(final ModelMap model, @PathVariable Long idArtist) {
+        Optional<Artist> artist = artistRepository.findById(idArtist);
+        artist.ifPresent(value -> model.put("artist", value)); //Si l'artiste est présent alors il existe et on l'ajoute sinon 404
         return "detailArtist";
     }
 
@@ -106,9 +106,9 @@ public class ThymeleafAudioController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/artists/{idArtist}/delete")
     public RedirectView deleteArtist(@PathVariable Long idArtist) {
-        Artist artist = artistRepository.findById(idArtist).orElse(null);
-        if(artist != null) {
-            artistRepository.delete(artist);
+        Optional<Artist> artist = artistRepository.findById(idArtist);
+        if(artist.isPresent()) { //Si l'artiste est présent alors il existe
+            artistRepository.delete(artist.get());
             return new RedirectView("/thymeleaf/artists?page=0&size=10&sortProperty=name&sortDirection=ASC");
         } else {
             //404
@@ -117,14 +117,34 @@ public class ThymeleafAudioController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/artists/{idArtist}/album")
-    public String createAlbum(final ModelMap model, @PathVariable Long idArtist, Album album) {
-        Artist artist = artistRepository.findById(idArtist).orElse(null);
-        if(artist != null) {
-            album.setArtist(artist);
-            albumRepository.save(album);
-            model.put("artist", artist);
+    public RedirectView createAlbum(/*final ModelMap model, */@PathVariable Long idArtist, Album album) {
+        Optional<Artist> artist = artistRepository.findById(idArtist); //On récupère pour pouvoir le passer a l'album
+        if(artist.isEmpty()) { //Si l'artiste optional est vide on redirige
+            //L'artiste n'existe pas donc on redirige vers la liste des artistes
+            return new RedirectView("/thymeleaf/artists?page=0&size=10&sortProperty=name&sortDirection=ASC");
         }
 
-        return "detailArtist";
+        if(!album.getTitle().isEmpty()) { //Le nom de l'album est pas vide alors on sauvegarde l'album
+            album.setArtist(artist.get());
+            albumRepository.save(album);
+            //model.put("artist", artist.get());
+        }
+        //On redirige ensuite vers la page
+        return new RedirectView("/thymeleaf/artists/"+artist.get().getId());
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/artists/{idArtist}/album/delete/{idAlbum}")
+    public RedirectView deleteAlbum(/*final ModelMap model, */@PathVariable Long idArtist, @PathVariable Long idAlbum) {
+        Optional<Artist> artistOptional = artistRepository.findById(idArtist); //On récupère l'artiste
+        Optional<Album> albumOptional = albumRepository.findById(idAlbum); //On récupère l'album
+        if(artistOptional.isEmpty()) { //Si l'artiste optional est vide on redirige
+            //L'artiste n'existe pas donc on redirige vers la liste des artistes
+            return new RedirectView("/thymeleaf/artists?page=0&size=10&sortProperty=name&sortDirection=ASC");
+        }
+
+        albumOptional.ifPresent(album -> albumRepository.delete(album));
+
+        //On redirige ensuite vers la page
+        return new RedirectView("/thymeleaf/artists/"+artistOptional.get().getId());
     }
 }
